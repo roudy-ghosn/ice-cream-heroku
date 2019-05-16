@@ -1,3 +1,12 @@
+var request = require('request');
+var express = require('express');
+var bodyParser = require('body-parser');
+var app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
+var path = require("path");
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
 
 /* WebHook */
 
