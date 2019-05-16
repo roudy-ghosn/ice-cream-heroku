@@ -30,7 +30,7 @@ app.post('/webhook', function (req, res) {
   let response = " ";
   let responseObj = {
                       "fullfillmentText" : "Hello Abou l Roudz, hay anne Heruko !",
-                      // "fullfillmentMessages" : [{"text": {"text": [atmAndBranches]}}],
+                      "fullfillmentMessages" : [{"text": {"text": ["Hello Abou l Roudz, hay anne Heruko 2 !"]}}],
                       "source": ""
                     }
 
