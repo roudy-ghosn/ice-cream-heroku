@@ -38,7 +38,7 @@ app.post('/webhook', function (req, res) {
   console.log(responseObj);
   return res.json(responseObj);
 })
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
 
 /* Calling WSO2 Web APIS */
 
