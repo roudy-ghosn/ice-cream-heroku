@@ -1,7 +1,7 @@
 var request = require('request');
 var express = require('express');
 var bodyParser = require('body-parser');
-var app = express();
+var app = require('express')();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 var path = require("path");
@@ -10,7 +10,7 @@ var io = require('socket.io')(server);
 
 /* WebHook */
 
-app.host('/webhook', function(req, res){
+app.post('/webhook', function (req, res) {
   console.log('Received a POST request');
   
   if(!req.body)
@@ -38,6 +38,7 @@ app.host('/webhook', function(req, res){
   console.log(responseObj);
   return res.json(responseObj);
 })
+app.listen(3000);
 
 /* Calling WSO2 Web APIS */
 
