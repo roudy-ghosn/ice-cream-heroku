@@ -14,7 +14,7 @@ app.host('/webhook', function(req, res){
   console.log('Received a POST request');
   
   if(!req.body)
-    return res.sendStatus(400);
+    return res.sendStatus(400); 
   res.setHeader('Content-Type', 'application/json');
   
   console.log('Heres the post request from DialogFlow');
