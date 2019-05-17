@@ -24,8 +24,8 @@ app.post('/webhook', function (req, res) {
   var size = req.body.queryResult.parameters['size'];
   var flavour = req.body.queryResult.parameters['flavour'];
 
-  var atmAndBranches = getAtmAndBranches();
-  console.log('AtmAndBranches Results ' + atmAndBranches);
+  // var atmAndBranches = getAtmAndBranches();
+  // console.log('AtmAndBranches Results ' + atmAndBranches);
 
   let response = " ";
   let responseObj = {
