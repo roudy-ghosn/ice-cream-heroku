@@ -19,11 +19,15 @@ app.post('/webhook', function (req, res) {
   
   console.log('Heres the post request from DialogFlow');
   console.log(req.body);
-  console.log('Got Size: ' + req.body.queryResult.parameters['size'] + ' And Flavour: ' + req.body.queryResult.parameters['flavour'] + ' from DialogFlow');
-
-  var size = req.body.queryResult.parameters['size'];
-  var flavour = req.body.queryResult.parameters['flavour'];
-
+  
+  if (req.body.queryResult.intent['displayName'] === "getUserNavigationRequest") {
+    console.log('Got Page: ' + req.body.queryResult.parameters['pages'] + ' from DialogFlow');
+  } else if (req.body.queryResult.intent['displayName'] === "getIceCreamOrder") {
+    console.log('Got Size: ' + req.body.queryResult.parameters['size'] + ' And Flavour: ' + req.body.queryResult.parameters['flavour'] + ' from DialogFlow');
+  }
+  
+  // var size = req.body.queryResult.parameters['size'];
+  // var flavour = req.body.queryResult.parameters['flavour'];
   // var atmAndBranches = getAtmAndBranches();
   // console.log('AtmAndBranches Results ' + atmAndBranches);
 
