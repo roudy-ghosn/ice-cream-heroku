@@ -11,50 +11,40 @@ var io = require('socket.io')(server);
 /* WebHook */
 
 app.post('/webhook', function (req, res) {
-  let response = " ";
   var fulfillmentMessage = "";
 
   if(!req.body)
     return res.sendStatus(400); 
   res.setHeader('Content-Type', 'application/json');
-
+  
   // console.log('Received a POST request');  
   // console.log('Heres the post request body: ' + req.body);
   
   if (req.body.queryResult.intent['displayName'] === "getUserNavigationRequest") {
-    var page = req.body.queryResult.parameters['Pages'];
     fulfillmentMessage = 'Got Page: ' + req.body.queryResult.parameters['Pages'] + ' from DialogFlow';
-    let responseObj = {
-                        "fulfillmentMessages" : [{"text": {"text": [fulfillmentMessage]}}],
-                        "outputContexts": [
-                          {
-                            "name": "go-to-action",
-                            "lifespanCount": 5,
-                            "parameters": {"page": page, "action": "go-to"}
-                          }
-                        ]
-                      }
-    return res.json(responseObj);
   } else if (req.body.queryResult.intent['displayName'] === "getIceCreamOrder") {
-    var size = req.body.queryResult.parameters['size'];
-    var flavour = req.body.queryResult.parameters['flavours'];
     fulfillmentMessage = 'Got Size: ' + req.body.queryResult.parameters['size'] + ' And Flavour: ' + req.body.queryResult.parameters['flavours'] + ' from DialogFlow';
-    let responseObj = {
-                        "fulfillmentMessages" : [{"text": {"text": [fulfillmentMessage]}}],
-                        "outputContexts": [
-                          {
-                            "name": "order",
-                            "lifespanCount": 5,
-                            "parameters": {"size": size, "flavour": flavour}
-                          }
-                        ]
-                      }
-    return res.json(responseObj);
   }
   
+  // var size = req.body.queryResult.parameters['size'];
+  // var flavour = req.body.queryResult.parameters['flavour'];
   // var atmAndBranches = getAtmAndBranches();
   // console.log('AtmAndBranches Results ' + atmAndBranches);
+
+  let response    = " ";
+  let responseObj = {
+                      "fulfillmentMessages" : [{"text": {"text": [fulfillmentMessage]}}]
+                      // "outputContexts": [
+                      //   {
+                      //     "name": "go-to-action",
+                      //     "lifespanCount": 5,
+                      //     "parameters": {"page": page, "action": "go-to"}
+                      //   }
+                      // ]
+                    }
+
   // console.log('Heres the response to DialogFlow: ' + responseObj);
+  return res.json(responseObj);
 })
 app.listen(process.env.PORT || 3000);
 
