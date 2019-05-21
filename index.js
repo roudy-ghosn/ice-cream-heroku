@@ -11,7 +11,7 @@ var io = require('socket.io')(server);
 /* WebHook */
 
 app.post('/webhook', function (req, res) {
-  let responseObj = " ";
+  var responseObj = " ";
   var fulfillmentMessage = "";
 
   if(!req.body)
