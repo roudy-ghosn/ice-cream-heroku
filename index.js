@@ -11,8 +11,10 @@ var io = require('socket.io')(server);
 /* WebHook */
 
 app.post('/webhook', function (req, res) {
-  console.log('Received a POST request');
-  
+  let response = " ";
+  var fulfillmentMessage = "";
+
+  console.log('Received a POST request');  
   if(!req.body)
     return res.sendStatus(400); 
   res.setHeader('Content-Type', 'application/json');
@@ -21,22 +23,36 @@ app.post('/webhook', function (req, res) {
   console.log(req.body);
   
   if (req.body.queryResult.intent['displayName'] === "getUserNavigationRequest") {
-    console.log('Got Page: ' + req.body.queryResult.parameters['pages'] + ' from DialogFlow');
+    var page = req.body.queryResult.parameters['Pages'];
+    fulfillmentMessage = 'Got Page: ' + req.body.queryResult.parameters['Pages'] + ' from DialogFlow';
+    let responseObj = {
+                        "fulfillmentMessages" : [{"text": {"text": [fulfillmentMessage]}}],
+                        "outputContexts": [
+                          {
+                            "name": "go-to-action",
+                            "lifespanCount": 5,
+                            "parameters": {"page": page, "action": "go-to"}
+                          }
+                        ]
+                      }
   } else if (req.body.queryResult.intent['displayName'] === "getIceCreamOrder") {
-    console.log('Got Size: ' + req.body.queryResult.parameters['size'] + ' And Flavour: ' + req.body.queryResult.parameters['flavour'] + ' from DialogFlow');
+    var size = req.body.queryResult.parameters['size'];
+    var flavour = req.body.queryResult.parameters['flavours'];
+    fulfillmentMessage = 'Got Size: ' + req.body.queryResult.parameters['size'] + ' And Flavour: ' + req.body.queryResult.parameters['flavours'] + ' from DialogFlow';
+    let responseObj = {
+                        "fulfillmentMessages" : [{"text": {"text": [fulfillmentMessage]}}],
+                        "outputContexts": [
+                          {
+                            "name": "order",
+                            "lifespanCount": 5,
+                            "parameters": {"size": size, "flavour": flavour}
+                          }
+                        ]
+                      }
   }
   
-  // var size = req.body.queryResult.parameters['size'];
-  // var flavour = req.body.queryResult.parameters['flavour'];
   // var atmAndBranches = getAtmAndBranches();
   // console.log('AtmAndBranches Results ' + atmAndBranches);
-
-  let response = " ";
-  let responseObj = {
-                      "fulfillmentText" : "This is a message from Heroku Webhook!",
-                      "fulfillmentMessages" : [{"text": {"text": ["This is a message from Heroku Webhook!"]}}],
-                      "source": ""
-                    }
 
   console.log('Heres the response to DialogFlow');
   console.log(responseObj);
