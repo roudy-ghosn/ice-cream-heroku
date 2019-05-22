@@ -23,47 +23,40 @@ app.post('/webhook', function (req, res) {
   if (req.body.queryResult.intent['displayName'] === "getUserNavigationRequest") {
     var page = req.body.queryResult.parameters['Pages'];
     var fulfillmentMessage = 'Got Page: ' + page + ' from DialogFlow';
-    res.json({ fulfillmentText: fulfillmentMessage,
-               fulfillmentMessages: [{"text": {"text": [fulfillmentMessage]}}],
-               displayText: fulfillmentMessage,
-               outputContexts: [{ "name": "projects/ice-cream-helper-8226e/agent/sessions/13c7b519-028d-5517-bfab-f10585e781b3/contexts/go-to-action",
-                                  "lifespanCount": 5,
-                                  "parameters": {
-                                    "page": page
-                                }}],
-               source: 'webhook-heroku'
-            });
+    // res.json({ fulfillmentText: fulfillmentMessage,
+    //            fulfillmentMessages: [{"text": {"text": [fulfillmentMessage]}}],
+    //            displayText: fulfillmentMessage,
+    //            outputContexts: [{ "name": "projects/ice-cream-helper-8226e/agent/sessions/13c7b519-028d-5517-bfab-f10585e781b3/contexts/go-to-action",
+    //                               "lifespanCount": 5,
+    //                               "parameters": {
+    //                                 "page": page
+    //                             }}],
+    //            source: 'webhook-heroku'
+    //         });
   } else if (req.body.queryResult.intent['displayName'] === "getIceCreamOrder") {
     var size = req.body.queryResult.parameters['size'];
-    var flavour = req.body.queryResult.parameters['flavour'];
+    var flavour = req.body.queryResult.parameters['flavours'];
     var fulfillmentMessage = 'Got Size: ' + size + ' And Flavour: ' + flavour + ' from DialogFlow';
-    res.json({ fulfillmentText: fulfillmentMessage,
-               fulfillmentMessages: [{"text": {"text": [fulfillmentMessage]}}],
-               displayText: fulfillmentMessage,
-               outputContexts: [{ "name": "projects/ice-cream-helper-8226e/agent/sessions/13c7b519-028d-5517-bfab-f10585e781b3/contexts/order",
-                                  "lifespanCount": 5,
-                                  "parameters": {
-                                    "size": size,
-                                    "flavour": flavour
-                                }}],
-               source: 'webhook-heroku'
-            });
+    // res.json({ fulfillmentText: fulfillmentMessage,
+    //            fulfillmentMessages: [{"text": {"text": [fulfillmentMessage]}}],
+    //            displayText: fulfillmentMessage,
+    //            outputContexts: [{ "name": "projects/ice-cream-helper-8226e/agent/sessions/13c7b519-028d-5517-bfab-f10585e781b3/contexts/order",
+    //                               "lifespanCount": 5,
+    //                               "parameters": {
+    //                                 "size": size,
+    //                                 "flavour": flavour
+    //                             }}],
+    //            source: 'webhook-heroku'
+    //         });
   }
   
   // var atmAndBranches = getAtmAndBranches();
   // console.log('AtmAndBranches Results ' + atmAndBranches);
 
-  // let response    = " ";
-  // let responseObj = {
-  //                     "fulfillmentMessages" : 
-  //                     // "outputContexts": [
-  //                     //   {
-  //                     //     "name": "go-to-action",
-  //                     //     "lifespanCount": 5,
-  //                     //     "parameters": {"page": page, "action": "go-to"}
-  //                     //   }
-  //                     // ]
-  //                   }
+  res.json({ fulfillmentText: "Test Data !!",
+             fulfillmentMessages: [{"text": {"text": ["Test Data !!"]}}],
+             source: 'webhook-heroku'
+          });
 })
 
 app.listen((process.env.PORT || 8000), function() {
