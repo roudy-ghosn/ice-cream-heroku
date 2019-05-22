@@ -24,8 +24,13 @@ app.post('/webhook', function (req, res) {
     var page = req.body.queryResult.parameters['Pages'];
     var fulfillmentMessage = 'Got Page: ' + page + ' from DialogFlow';
     res.json({ fulfillmentText: fulfillmentMessage,
-               speech: fulfillmentMessage,
+               fulfillmentMessages: [{"text": {"text": [fulfillmentMessage]}}],
                displayText: fulfillmentMessage,
+               outputContexts: [{ "name": "projects/ice-cream-helper-8226e/agent/sessions/13c7b519-028d-5517-bfab-f10585e781b3/contexts/go-to-action",
+                                  "lifespanCount": 5,
+                                  "parameters": {
+                                    "page": page
+                                }}],
                source: 'webhook-heroku'
             });
   } else if (req.body.queryResult.intent['displayName'] === "getIceCreamOrder") {
@@ -33,12 +38,13 @@ app.post('/webhook', function (req, res) {
     var flavour = req.body.queryResult.parameters['flavour'];
     var fulfillmentMessage = 'Got Size: ' + size + ' And Flavour: ' + flavour + ' from DialogFlow';
     res.json({ fulfillmentText: fulfillmentMessage,
-               speech: fulfillmentMessage,
+               fulfillmentMessages: [{"text": {"text": [fulfillmentMessage]}}],
                displayText: fulfillmentMessage,
                outputContexts: [{ "name": "projects/ice-cream-helper-8226e/agent/sessions/13c7b519-028d-5517-bfab-f10585e781b3/contexts/order",
                                   "lifespanCount": 5,
                                   "parameters": {
-                                    "test": "This is a test for outputContexts"
+                                    "size": size,
+                                    "flavour": flavour
                                 }}],
                source: 'webhook-heroku'
             });
@@ -49,7 +55,7 @@ app.post('/webhook', function (req, res) {
 
   // let response    = " ";
   // let responseObj = {
-  //                     "fulfillmentMessages" : [{"text": {"text": [fulfillmentMessage]}}]
+  //                     "fulfillmentMessages" : 
   //                     // "outputContexts": [
   //                     //   {
   //                     //     "name": "go-to-action",
