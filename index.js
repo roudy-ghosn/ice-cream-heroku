@@ -1,13 +1,21 @@
-const functions = require('firebase-functions');
+var request = require('request');
+var express = require('express');
+var bodyParser = require('body-parser');
+var app = require('express')();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
+var path = require("path");
+var server = require('https').createServer(app);
+var io = require('socket.io')(server);
 const {WebhookClient} = require('dialogflow-fulfillment');
 const {Card, Suggestion} = require('dialogflow-fulfillment');
  
 process.env.DEBUG = 'dialogflow:debug';
  
-exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response) => {
-  const agent = new WebhookClient({ request, response });
-  console.log('Dialogflow Request headers: ' + JSON.stringify(request.headers));
-  console.log('Dialogflow Request body: ' + JSON.stringify(request.body));
+app.post('/webhook', function (req, res) {
+  const agent = new WebhookClient({ req, res });
+  console.log('Dialogflow Request headers: ' + JSON.stringify(req.headers));
+  console.log('Dialogflow Request body: ' + JSON.stringify(req.body));
  
   function welcome(agent) {
     agent.add(`Welcome to my agent!`);
@@ -20,8 +28,8 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
   // below to get this function to be run when a Dialogflow intent is matched
   function yourFunctionHandler(agent) {
-    var size = request.body.queryResult.parameters[`size`];
-    var flavour = request.body.queryResult.parameters[`flavours`];
+    var size = req.body.queryResult.parameters[`size`];
+    var flavour = req.body.queryResult.parameters[`flavours`];
     
     agent.add(`This message is from Dialogflow's Cloud Functions for Firebase editor! Size: ${size} And Flavour: ${flavour}`);
     agent.add(new Suggestion(`Quick Reply`));
@@ -35,7 +43,8 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
   intentMap.set('Default Fallback Intent', fallback);
   intentMap.set('getIceCreamOrder', yourFunctionHandler);
   agent.handleRequest(intentMap);
-});
+})
+// app.listen(process.env.PORT || 3000);
 
 
 // var request = require('request');
