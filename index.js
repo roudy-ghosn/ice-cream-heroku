@@ -34,13 +34,13 @@ app.post('/webhook', function (req, res) {
   let response    = " ";
   let responseObj = {
                       "fulfillmentMessages" : [{"text": {"text": [fulfillmentMessage]}}]
-                      // "outputContexts": [
-                      //   {
-                      //     "name": "go-to-action",
-                      //     "lifespanCount": 5,
-                      //     "parameters": {"page": page, "action": "go-to"}
-                      //   }
-                      // ]
+                      "outputContexts": [
+                        {
+                          "name": "go-to-action",
+                          "lifespanCount": 5,
+                          "parameters": {"page": "Contact", "action": "go-to"}
+                        }
+                      ]
                     }
 
   // console.log('Heres the response to DialogFlow: ' + responseObj);
