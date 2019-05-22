@@ -1,24 +1,31 @@
 var request = require('request');
 var express = require('express');
 var bodyParser = require('body-parser');
+
 var app = require('express')();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
+
 var path = require("path");
 var server = require('https').createServer(app);
 var io = require('socket.io')(server);
+
+const functions = require('firebase-functions');
+const {WebhookClient} = require('dialogflow-fulfillment');
+const {Card, Suggestion} = require('dialogflow-fulfillment');
 
 /* WebHook */
 
 app.post('/webhook', function (req, res) {
   var fulfillmentMessage = "";
+  const agent = new WebhookClient({ request, response });
+
+  console.log('Dialogflow Request headers: ' + JSON.stringify(req.headers));
+  console.log('Dialogflow Request body: ' + JSON.stringify(req.body));
 
   if(!req.body)
     return res.sendStatus(400); 
   res.setHeader('Content-Type', 'application/json');
-  
-  // console.log('Received a POST request');  
-  // console.log('Heres the post request body: ' + req.body);
   
   if (req.body.queryResult.intent['displayName'] === "getUserNavigationRequest") {
     fulfillmentMessage = 'Got Page: ' + req.body.queryResult.parameters['Pages'] + ' from DialogFlow';
