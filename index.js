@@ -33,7 +33,7 @@ app.post('/webhook', function (req, res) {
 
   let response    = " ";
   let responseObj = {
-                      "fulfillmentMessages" : [{"text": {"text": [fulfillmentMessage]}}]
+                      "fulfillmentMessages" : [{"text": {"text": [fulfillmentMessage]}}],
                       "outputContexts": [
                         {
                           "name": "go-to-action",
