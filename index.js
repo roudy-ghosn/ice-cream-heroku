@@ -10,14 +10,14 @@ var path = require("path");
 var server = require('https').createServer(app);
 var io = require('socket.io')(server);
 
-const functions = require('firebase-functions');
-const {WebhookClient} = require('dialogflow-fulfillment');
-const {Card, Suggestion} = require('dialogflow-fulfillment');
+// const functions = require('firebase-functions');
+// const {WebhookClient} = require('dialogflow-fulfillment');
+// const {Card, Suggestion} = require('dialogflow-fulfillment');
 
 /* WebHook */
 
 app.post('/webhook', function (req, res) {
-  const agent = new WebhookClient({ req, res });
+  // const agent = new WebhookClient({ req, res });
   var fulfillmentMessage = "";
 
   console.log('Dialogflow Request headers: ' + JSON.stringify(req.headers));
@@ -29,8 +29,16 @@ app.post('/webhook', function (req, res) {
   
   if (req.body.queryResult.intent['displayName'] === "getUserNavigationRequest") {
     fulfillmentMessage = 'Got Page: ' + req.body.queryResult.parameters['Pages'] + ' from DialogFlow';
+    res.json({ speech: 'This is a test',
+               displayText: 'This is a test',
+               source: 'webhook'
+            });
   } else if (req.body.queryResult.intent['displayName'] === "getIceCreamOrder") {
     fulfillmentMessage = 'Got Size: ' + req.body.queryResult.parameters['size'] + ' And Flavour: ' + req.body.queryResult.parameters['flavours'] + ' from DialogFlow';
+    res.json({ speech: 'This is a test',
+               displayText: 'This is a test',
+               source: 'webhook'
+            });
   }
   
   // var size = req.body.queryResult.parameters['size'];
@@ -38,22 +46,25 @@ app.post('/webhook', function (req, res) {
   // var atmAndBranches = getAtmAndBranches();
   // console.log('AtmAndBranches Results ' + atmAndBranches);
 
-  let response    = " ";
-  let responseObj = {
-                      "fulfillmentMessages" : [{"text": {"text": [fulfillmentMessage]}}]
-                      // "outputContexts": [
-                      //   {
-                      //     "name": "go-to-action",
-                      //     "lifespanCount": 5,
-                      //     "parameters": {"page": page, "action": "go-to"}
-                      //   }
-                      // ]
-                    }
+  // let response    = " ";
+  // let responseObj = {
+  //                     "fulfillmentMessages" : [{"text": {"text": [fulfillmentMessage]}}]
+  //                     // "outputContexts": [
+  //                     //   {
+  //                     //     "name": "go-to-action",
+  //                     //     "lifespanCount": 5,
+  //                     //     "parameters": {"page": page, "action": "go-to"}
+  //                     //   }
+  //                     // ]
+  //                   }
 
   // console.log('Heres the response to DialogFlow: ' + responseObj);
-  return res.json(responseObj);
+  // return res.json(responseObj);
 })
-app.listen(process.env.PORT || 3000);
+
+app.listen((process.env.PORT || 8000), function() {
+  console.log("Server up and listening");
+});
 
 /* Calling WSO2 Web APIS */
 
