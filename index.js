@@ -10,39 +10,40 @@ var path = require("path");
 var server = require('https').createServer(app);
 var io = require('socket.io')(server);
 
-// const functions = require('firebase-functions');
-// const {WebhookClient} = require('dialogflow-fulfillment');
-// const {Card, Suggestion} = require('dialogflow-fulfillment');
-
-/* WebHook */
+/* Webhook */
 
 app.post('/webhook', function (req, res) {
-  // const agent = new WebhookClient({ req, res });
-  var fulfillmentMessage = "";
-
-  console.log('Dialogflow Request headers: ' + JSON.stringify(req.headers));
-  console.log('Dialogflow Request body: ' + JSON.stringify(req.body));
+  // console.log('Dialogflow Request headers: ' + JSON.stringify(req.headers));
+  // console.log('Dialogflow Request body: ' + JSON.stringify(req.body));
 
   if(!req.body)
     return res.sendStatus(400); 
   res.setHeader('Content-Type', 'application/json');
   
   if (req.body.queryResult.intent['displayName'] === "getUserNavigationRequest") {
-    fulfillmentMessage = 'Got Page: ' + req.body.queryResult.parameters['Pages'] + ' from DialogFlow';
-    res.json({ speech: 'This is a test',
-               displayText: 'This is a test',
-               source: 'webhook'
+    var page = req.body.queryResult.parameters['Pages'];
+    var fulfillmentMessage = 'Got Page: ' + page + ' from DialogFlow';
+    res.json({ fulfillmentText: fulfillmentMessage,
+               speech: fulfillmentMessage,
+               displayText: fulfillmentMessage,
+               source: 'webhook-heroku'
             });
   } else if (req.body.queryResult.intent['displayName'] === "getIceCreamOrder") {
-    fulfillmentMessage = 'Got Size: ' + req.body.queryResult.parameters['size'] + ' And Flavour: ' + req.body.queryResult.parameters['flavours'] + ' from DialogFlow';
-    res.json({ speech: 'This is a test',
-               displayText: 'This is a test',
-               source: 'webhook'
+    var size = req.body.queryResult.parameters['size'];
+    var flavour = req.body.queryResult.parameters['flavour'];
+    var fulfillmentMessage = 'Got Size: ' + size + ' And Flavour: ' + flavour + ' from DialogFlow';
+    res.json({ fulfillmentText: fulfillmentMessage,
+               speech: fulfillmentMessage,
+               displayText: fulfillmentMessage,
+               outputContexts: [{ "name": "projects/ice-cream-helper-8226e/agent/sessions/13c7b519-028d-5517-bfab-f10585e781b3/contexts/order",
+                                  "lifespanCount": 5,
+                                  "parameters": {
+                                    "test": "This is a test for outputContexts"
+                                }}],
+               source: 'webhook-heroku'
             });
   }
   
-  // var size = req.body.queryResult.parameters['size'];
-  // var flavour = req.body.queryResult.parameters['flavour'];
   // var atmAndBranches = getAtmAndBranches();
   // console.log('AtmAndBranches Results ' + atmAndBranches);
 
@@ -57,9 +58,6 @@ app.post('/webhook', function (req, res) {
   //                     //   }
   //                     // ]
   //                   }
-
-  // console.log('Heres the response to DialogFlow: ' + responseObj);
-  // return res.json(responseObj);
 })
 
 app.listen((process.env.PORT || 8000), function() {
