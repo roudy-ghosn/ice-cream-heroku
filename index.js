@@ -17,8 +17,8 @@ const {Card, Suggestion} = require('dialogflow-fulfillment');
 /* WebHook */
 
 app.post('/webhook', function (req, res) {
+  const agent = new WebhookClient({ req, res });
   var fulfillmentMessage = "";
-  const agent = new WebhookClient({ request, response });
 
   console.log('Dialogflow Request headers: ' + JSON.stringify(req.headers));
   console.log('Dialogflow Request body: ' + JSON.stringify(req.body));
