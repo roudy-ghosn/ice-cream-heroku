@@ -26,7 +26,7 @@ app.post('/webhook', function (req, res) {
     res.json({ fulfillmentText: fulfillmentMessage,
                fulfillmentMessages: [{"text": {"text": [fulfillmentMessage]}}],
                outputContexts: [{ "name": "projects/ice-cream-helper-8226e/agent/sessions/13c7b519-028d-5517-bfab-f10585e781b3/contexts/go-to-action",
-                                  "lifespanCount": 5,
+                                  "lifespanCount": 1,
                                   "parameters": {
                                     "page": page
                                 }}],
@@ -39,7 +39,7 @@ app.post('/webhook', function (req, res) {
     res.json({ fulfillmentText: fulfillmentMessage,
                fulfillmentMessages: [{"text": {"text": [fulfillmentMessage]}}],
                outputContexts: [{ "name": "projects/ice-cream-helper-8226e/agent/sessions/13c7b519-028d-5517-bfab-f10585e781b3/contexts/order",
-                                  "lifespanCount": 5,
+                                  "lifespanCount": 1,
                                   "parameters": {
                                     "size": size,
                                     "flavour": flavour
