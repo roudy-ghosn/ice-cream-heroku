@@ -21,7 +21,7 @@ app.post('/webhook', function (req, res) {
     return res.sendStatus(400); 
   res.setHeader('Content-Type', 'application/json');
 
-  if (req.body.queryResult.intent['displayName'] === "balance.check") {
+  if (req.body.queryResult.intent['displayName'].startsWith("balance.check")) {
     var param              = '';
     var balanceType        = req.body.queryResult.parameters['balance-type'];
     var digits             = req.body.queryResult.parameters['number'];
