@@ -28,11 +28,11 @@ app.post('/webhook', function (req, res) {
     var digits             = req.body.queryResult.parameters['number'];
 
     if (balanceType.hasOwnProperty("global")) {
-      param = req.body.queryResult.parameters['balance-type'].['global'];
+      param = balanceType['global'];
     } else if (balanceType.hasOwnProperty("account-type")) {
-      param = req.body.queryResult.parameters['balance-type'].['account-type'];
+      param = balanceType['account-type'];
     } else if (balanceType.hasOwnProperty("card-type")) {
-      param = req.body.queryResult.parameters['balance-type'].['card-type'];
+      param = balanceType['card-type'];
     }
 
     if (balanceType.hasOwnProperty("global")) {
@@ -65,7 +65,7 @@ app.listen((process.env.PORT || 8000), function() {
 function getAtmAndBranches() {
   var https = require('https');
   var success = function(data) {console.log('Success');};
-  var dataString = JSON.stringify({'lng': 'en'});
+  var dataString = JSON.stringify({'lng': 'en'}); 
   console.log(`REST API Start! data = ${dataString} and success = ${success}`);
 
   var options = {
