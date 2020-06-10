@@ -36,7 +36,7 @@ app.post('/webhook', function (req, res) {
 
     if (balanceType.hasOwnProperty("global")) {
       var fulfillmentMessage = 'Your current global balance is equivalent to: 850 USD';
-    } else if (digits != null) {      
+    } else if (digits != "") {      
       var fulfillmentMessage = 'Your current ' + param + ' balance is equivalent to: 150 USD';
     } else {
       var fulfillmentMessage = 'Please provide the last 4 digits of the requested ' + param;
