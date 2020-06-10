@@ -65,7 +65,7 @@ app.listen((process.env.PORT || 8000), function() {
 function getAtmAndBranches() {
   var https = require('https');
   var success = function(data) {console.log('Success');};
-  var dataString = JSON.stringify({'lng': 'en'});
+  var dataString = JSON.stringify({'lng': 'en'}); 
   console.log(`REST API Start! data = ${dataString} and success = ${success}`);
 
   var options = {
