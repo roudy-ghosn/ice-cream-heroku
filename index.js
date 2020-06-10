@@ -21,7 +21,7 @@ app.post('/webhook', function (req, res) {
     return res.sendStatus(400); 
   res.setHeader('Content-Type', 'application/json');
 
-  if (req.body.queryResult.intent['displayName'].startsWith("balance.check")) {
+  if (req.body.queryResult.intent['displayName'] === "balance.check") {
     var param              = '';
     var balanceType        = req.body.queryResult.parameters['balance-type'];
     var digits             = req.body.queryResult.parameters['number'];
@@ -35,12 +35,14 @@ app.post('/webhook', function (req, res) {
     }
 
     if (balanceType.hasOwnProperty("global")) {
-      var fulfillmentMessage = 'Your current global balance is equivalent to: 850 USD';
+      fulfillmentMessage = 'Your current global balance is equivalent to: 850 USD';
     } else if (digits != "") {      
-      var fulfillmentMessage = 'Your current balance for ' + param + ' ending with ' + digits + ' is equivalent to: 150 USD';
+      fulfillmentMessage = 'Your current balance for ' + param + ' ending with ' + digits + ' is equivalent to: 150 USD';
     } else {
-      var fulfillmentMessage = 'Please provide the last 4 digits of the requested ' + param;
+      fulfillmentMessage = 'Please provide the last 4 digits of the requested ' + param;
     }
+  } else if (req.body.queryResult.intent['displayName'] === "balance.check") {
+    
   }
   
   // var atmAndBranches = getAtmAndBranches();
