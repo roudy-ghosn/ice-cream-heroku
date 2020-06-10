@@ -9,11 +9,11 @@ app.use(bodyParser.urlencoded({extended:true}));
 var path = require("path");
 var server = require('https').createServer(app);
 var io = require('socket.io')(server);
-var array = [];
 
 /* Webhook */
 
 app.post('/webhook', function (req, res) {
+  var fulfillmentMessage = '';
   // console.log('Dialogflow Request headers: ' + JSON.stringify(req.headers));
   // console.log('Dialogflow Request body: ' + JSON.stringify(req.body));
 
@@ -23,7 +23,6 @@ app.post('/webhook', function (req, res) {
 
   if (req.body.queryResult.intent['displayName'] === "balance.check") {
     var param              = '';
-    var fulfillmentMessage = '';
     var balanceType        = req.body.queryResult.parameters['balance-type'];
     var digits             = req.body.queryResult.parameters['number'];
 
@@ -42,18 +41,15 @@ app.post('/webhook', function (req, res) {
     } else {
       var fulfillmentMessage = 'Please provide the last 4 digits of the requested ' + param;
     }
-    
-    array.push({ fulfillmentText: fulfillmentMessage,
-                 fulfillmentMessages: [{"text": {"text": [fulfillmentMessage]}}],
-                 source: 'webhook-heroku'
-              });
   }
   
   // var atmAndBranches = getAtmAndBranches();
   // console.log('AtmAndBranches Results ' + atmAndBranches);
 
-  console.log(array);
-  res.json(JSON.stringify(array[0]));
+  res.json({ fulfillmentText: fulfillmentMessage,
+             fulfillmentMessages: [{"text": {"text": [fulfillmentMessage]}}],
+             source: 'webhook-heroku'
+          });
 })
 
 app.listen((process.env.PORT || 8000), function() {
