@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 var path = require("path");
 var server = require('https').createServer(app);
 var io = require('socket.io')(server);
-var array = '';
+var array = [];
 
 /* Webhook */
 
@@ -53,7 +53,7 @@ app.post('/webhook', function (req, res) {
   // console.log('AtmAndBranches Results ' + atmAndBranches);
 
   console.log(array);
-  res.json(array);
+  res.json(JSON.stringify(array[0]));
 })
 
 app.listen((process.env.PORT || 8000), function() {
