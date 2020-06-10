@@ -9,6 +9,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 var path = require("path");
 var server = require('https').createServer(app);
 var io = require('socket.io')(server);
+var array = [];
 
 /* Webhook */
 
@@ -19,8 +20,8 @@ app.post('/webhook', function (req, res) {
   if(!req.body)
     return res.sendStatus(400); 
   res.setHeader('Content-Type', 'application/json');
-  
-  if (req.body.queryResult.intent['displayName'] === "getUserNavigationRequest") {
+
+  /*if (req.body.queryResult.intent['displayName'] === "getUserNavigationRequest") {
     var page = req.body.queryResult.parameters['Pages'];
     var fulfillmentMessage = 'Got Page: ' + page + ' from DialogFlow';
     res.json({ fulfillmentText: fulfillmentMessage,
@@ -46,10 +47,13 @@ app.post('/webhook', function (req, res) {
                                 }}],
                source: 'webhook-heroku'
             });
-  }
+  }*/
   
   // var atmAndBranches = getAtmAndBranches();
   // console.log('AtmAndBranches Results ' + atmAndBranches);
+
+  console.log(array);
+  res.json(array);
 })
 
 app.listen((process.env.PORT || 8000), function() {
