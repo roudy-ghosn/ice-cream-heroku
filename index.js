@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 var path = require("path");
 var server = require('https').createServer(app);
 var io = require('socket.io')(server);
-var array = [];
+var array = new Array();
 
 /* Webhook */
 
